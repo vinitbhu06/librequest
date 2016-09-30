@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" class="gr__w3schools_com">
+<head>
+  <title>LibRequest - Request Your library</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <link rel="stylesheet" href="css/myStyle.css"/>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- Validate Plugin -->
+	<script type="text/javascript" src="js/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="validate.js"></script>
+	<!-- tableToPDF from http://kayalshri.github.io/tableExport.jquery.plugin/
+	<script type="text/javascript" src="forpdf/jspdf/libs/sprintf.js"></script>
+	<script type="text/javascript" src="forpdf/jspdf/jspdf.js"></script>
+	<script type="text/javascript" src="forpdf/jspdf/libs/base64.js"></script>
+	<script type="text/javascript" src="forpdf/tableExport.js"></script>
+	<script type="text/javascript" src="forpdf/jquery.base64.js"></script> -->
+	<script type="text/javascript" src="pdfmake/pdfmake.min.js"></script>
+ 	<script type="text/javascript" src="pdfmake/vfs_fonts.js"></script>
+	<!--<script type="text/javascript" src="pdfmake/pdfmake.js"></script> -->
+	<script type="text/javascript" src="lookup.js"></script>
+	<script type="text/javascript" src="pdf.js"></script>
+</head>
+<body>
+		<!-- Navbar -->
+		<nav class="navbar navbar-default navbar-fixed-top">
+		  <div class="container">
+			<div class="navbar-header">
+			  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			  </button>
+			  <a class="navbar-brand" href="#">LibRequest</a>
+			</div>
+			<div class="collapse navbar-collapse" id="myNavbar">
+			  <ul class="nav navbar-nav navbar-right">
+				<li><a href="#about">About</a></li>
+				<li><a href="#why">Why</a></li>
+				<li><a href="#help">Help</a></li>
+			  </ul>
+			</div>
+		  </div>
+		</nav>
+	<div class="container">
+	<!-- <div class="page-header">
+			    <h1>Request your library</h1>
+			    <p></p>
+		    </div>	 -->
+			<!-- First Container --><a name="about"></a>
+	<div class="container-fluid bg-1 text-center">
+	  <!-- <h3 class="margin">About LibRequest</h3> -->
+	  <!-- <img src="bird.jpg" class="img-responsive img-circle margin" style="display:inline" alt="Bird" width="350" height="350"> -->
+	  <!-- Form starts here -->
+	<form  id="myForm" class="form-horizontal">
+		<fieldset>
+			<!-- <legend>Enter the fields below.<small></small></legend> -->
+			<div class="control-group">
+				<!-- <label class="control-label" for="isbn">Enter ISBN</label> -->
+				<br/><div class="controls">
+				<label class="control-label" for="isbn">Enter ISBN: </label><input type="text" class="input-large" name="isbn" id='isbn' placeholder='Enter ISBN'>
+				<button id="myButton" type="submit" class="btn btn-primary btn-small">Continue &rarr;</button>
+				<button type="reset" class="btn btn-small">Reset</button>
+
+				</div>
+				</div>
+		</fieldset>
+	</form>	<h3>LibRequest helps you to recommend a list of books for your library in a format that your library understands and would love to process.</h3>
+	<!-- Old form, when no data found -->
+	<!-- <!-- <div id="old-form">
+	<form class="form-horizontal">
+		<fieldset>
+			<legend>Enter the fields below.<small></small></legend>
+			<div class="control-group">
+				<label class="control-label" for="isbn">Enter ISBN full</label>
+				<div class="controls">
+				<input type="text" class="input-xlarge" name="isbn" id='isbn'><p></p>
+			<!-- 	<input type="text" class="input-xlarge" name="url" id="queryUrl"> -->
+			<!--	<button id="myButton" type="submit" class="btn btn-primary btn-small">Continue &rarr;</button>
+				<button type="reset" class="btn btn-small">Reset</button>
+
+				</div>
+				</div>
+			</div>
+		</fieldset>
+	</form>
+	<!-- </div>
+	</div>  -->
+
+	<!-- </div> -->
+	<div id="error">
+		<p class="text-error"><strong>Sorry, no record found!</strong></p>
+		<!-- <button class="btn btn-small btn-block btn-primary" type="button" id="fill">Fill the details</button> -->
+		<button class="btn btn-small btn-block" type="button" id="retry">Retry</button>
+	</div>
+
+ <div class="container-fluid bg-3" id="fromxisbn"><div class='table-scrollable'>
+<table class="table table-bordered " >
+<caption id="caption" class="bg-3">Bibliographic details about the requested books</caption>
+<thead id="headers"><tr><th>Cover</th><th>Title</th><th>Author</th><th>Publisher</th><th>Edition</th><th>Year</th><th>Language</th><th>Worldcat version</th></tr></thead>
+<tbody id="results"></tbody>
+
+</table></div>
+<button class="btn btn-small btn-block" type="button" onclick="myFunction()" >Download as PDF</button></br>
+</div>
+<!-- Second Container --><a name="why"></a>
+<div class="container-fluid bg-2 text-center" id="why">
+  <h3 class="margin">Why?</h3>
+  <p>This service has been developed to smoothify the process of putting library requests.</p>
+  <!-- <a href="#" class="btn btn-default btn-lg">
+    <span class="glyphicon glyphicon-search"></span> Search
+  </a> -->
+</div>
+
+<!-- Third Container (Grid) --><a name="help"></a>
+<br>
+<h2>What our users say</h2>
+ <div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+      <div class="item active">
+        <h4>"This service makes the request for purchase of books so easy. I am so happy with this service!"<br><span style="font-style:normal;">Dr D.K. Bhatt, Bundelkhand Univeristy, Jhansi</span></h4>
+      </div>
+      <div class="item">
+        <h4>"One word... WOW!!"<br><span style="font-style:normal;">Dr. J Sridevi, Deputy Librarian, Bundelkhand Univeristy, Jhansi</span></h4>
+      </div>
+      <div class="item">
+        <h4>"A very much required service ... "<br><span style="font-style:normal;">Dr Shamim Ansari, Bundelkhand University, Jhansi</span></h4>
+      </div>
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+ </div>
+<div class="container-fluid bg-3 text-center" id="recentRequests" >
+  <h3 class="margin">Recent requests</h3><br>
+  <div class="row">
+    <div class="col-sm-4">
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <img src="" class="img-responsive margin img-rounded" style="width:100%" alt="Image">
+    </div>
+    <div class="col-sm-4">
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <img src="" class="img-responsive margin img-rounded" style="width:100%" alt="Image">
+    </div>
+    <div class="col-sm-4">
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <img src="" class="img-responsive margin img-rounded" style="width:100%" alt="Image">
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="container-fluid bg-4 text-center">
+  <p>Developed by Dr. Vinit Kumar with love for the LIS community<a href="https://www.bujhansi.org/frmViewCampusFacultyProfile.aspx?FacultyID=4" target="_blank"><br/>About Me</a></p>
+</footer>
+</body>
+</html>
