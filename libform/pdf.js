@@ -35,5 +35,5 @@ function myFunction()
       [ { text: 'Bold value', bold: true }, 'Val 2', 'Val 3', 'Val 4','Val 4','Val 4' ]
     ],
 	 }} */
-    pdfMake.createPdf(docDefinition).open('Report'+Math.floor(Date.now() / 1000)+'.pdf');
+    pdfMake.createPdf(docDefinition).download('Report'+Math.floor(Date.now() / 1000)+'.pdf');
 	 }
