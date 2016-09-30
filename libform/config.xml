@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<widget xmlns   = "http://www.w3.org/ns/widgets"
+    xmlns:gap   = "http://phonegap.com/ns/1.0"
+    id          = "com.phonegap.example"
+    versionCode = "10"
+    version     = "1.0.0" >
+
+<!-- versionCode is optional and Android only -->
+
+  <name>LibRequest</name>
+
+  <description>
+      Request books from your library without hassles of typing out long forms.
+  </description>
+
+  <author href="https://build.phonegap.com" email="vinitbhu06@gmail.com">
+      Dr Vinit Kumar
+  </author>
+
+</widget>
