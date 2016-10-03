@@ -17,10 +17,12 @@ $(document).ready( function (){
 		isbn = document.getElementById('isbn').value;
 		var queryUrl = "http://xisbn.worldcat.org/webservices/xid/isbn/"+isbn+"?method=getMetadata&format=json&fl=*";
 	  $.ajax({
-	    url: queryUrl,
-	    dataType: "jsonp",
+	   beforeSend: function() { $('#wait').show(); },
+      		url: queryUrl,
+	   	dataType: "jsonp",
 	   	jsonp : 'callback',
-	    success: function(data) {
+		complete: function() { $('#wait').hide(); },
+	    	success: function(data) {
 	    		if( data.stat == "ok"){
 					// hide some of the elements of the landing page
 	    	//	$('#myForm').hide();
