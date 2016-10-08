@@ -80,5 +80,5 @@ function generatePDF(){
 			alignment: 'center'
 		}
 	}}
-    pdfMake.createPdf(docDefinition).download(+requesterName+'_Requests'+Math.floor(Date.now() / 1000)+'.pdf');
+    pdfMake.createPdf(docDefinition).download('LibRequest_Requests'+Math.floor(Date.now() / 1000)+'.pdf');
 	 }; // end function generatePDF
