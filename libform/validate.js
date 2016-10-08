@@ -22,7 +22,7 @@ return true;
 	
 $(document).ready(function(){
 
-	$('#myform').validate({
+	$('#myForm').validate({
 	    rules: {
 	     isbn: {
 	        minlength: 10,
@@ -34,6 +34,7 @@ $(document).ready(function(){
 	    	$(label).closest('.control-group').addClass('error');
 	    },
 	    success: function(label) {
+			//$('#continue').prop('disabled', false);
 	    	label
 	    		.text('OK!').addClass('valid')
 	    		.closest('.control-group').addClass('success');

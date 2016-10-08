@@ -7,17 +7,20 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="css/myStyle.css"/>
+  <!-- <link rel="stylesheet" href="css/style.css"/> -->
+
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <!-- Validate Plugin -->
 	<script type="text/javascript" src="js/jquery.validate.min.js"></script>
+  <script type="text/javascript" src="js/jspdf.min.js"></script>
 	<script type="text/javascript" src="validate.js"></script>
 	<!-- tableToPDF from http://kayalshri.github.io/tableExport.jquery.plugin/
 	<script type="text/javascript" src="forpdf/jspdf/libs/sprintf.js"></script>
 	<script type="text/javascript" src="forpdf/jspdf/jspdf.js"></script>
 	<script type="text/javascript" src="forpdf/jspdf/libs/base64.js"></script>
-	<script type="text/javascript" src="forpdf/tableExport.js"></script>
-	<script type="text/javascript" src="forpdf/jquery.base64.js"></script> -->
+	<script type="text/javascript" src="forpdf/tableExport.js"></script>-->
+	<script type="text/javascript" src="forpdf/jquery.base64.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.20/pdfmake.min.js"></script>
  	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.20/vfs_fonts.js"></script>
 	<!--<script type="text/javascript" src="pdfmake/pdfmake.js"></script> -->
@@ -51,32 +54,30 @@
 			    <p></p>
 		    </div>	 -->
 			<!-- First Container --><a name="about"></a>
-	<div class="container-fluid bg-1 text-center">
-	  <!-- <h3 class="margin">About LibRequest</h3> -->
-	  <!-- <img src="bird.jpg" class="img-responsive img-circle margin" style="display:inline" alt="Bird" width="350" height="350"> -->
-	  <!-- Form starts here -->
-	<form  id="myForm" class="form-horizontal">
+	<div class="container-fluid bg-1 text-center"><h3>LibRequest helps you to recommend a list of books for your library in a format that your library understands and would love to process.</h3>
+<div class="container-fluid bg-2 text-center">
+	<!-- Form starts here -->
+	<form  id="myForm" role="form" class="form">
 		<fieldset>
 			<!-- <legend>Enter the fields below.<small></small></legend> -->
-			<div class="control-group">
+			<div class="form-group">
 				<!-- <label class="control-label" for="isbn">Enter ISBN</label> -->
-				<br/><div class="controls">
-				<label class="control-label" for="isbn">Enter ISBN: </label><input type="text" class="input-large" name="isbn" id='isbn' placeholder='Enter ISBN'>
-				<button id="myButton" type="submit" class="btn btn-primary btn-small">Continue &rarr;</button>
+				<!-- <br/><div class="controls"> -->
+				<label  for="isbn"></label><input pattern="/^[0-9]{10,13}$/" type="text" class="input-lg" name="isbn" id='isbn' placeholder='Enter ISBN' required><p><!-- <span>Example of Help Text</span> --></p>
+				<button id="continue" type="submit" class="btn btn-primary btn-large">Continue &rarr;</button>
 				<button type="reset" class="btn btn-small">Reset</button>
 
 				</div>
-				</div>
+			<!-- </div> -->
 		</fieldset>
-	</form>	
-	<div id ="error" class="control-group">
-    		<!-- <label class="control-label" for="isbn">Enter ISBN</label> -->
-    			<br/><div class="controls"><p class="text-error"><strong>Sorry, no record found!</strong></p>
+	</form>
+  <!-- <div id="error"> -->
+  <div id ="error" class="control-group">
+    <!-- <label class="control-label" for="isbn">Enter ISBN</label> -->
+    <br/><div class="controls"><p class="text-error"><strong>Sorry, no record found!</strong></p>
     <!-- <button class="btn btn-small btn-block btn-primary" type="button" id="fill">Fill the details</button> -->
-    		<button class="btn btn-small" type="button" id="retry">Retry</button>
-  			</div>
-	</div>	
-	<h3>LibRequest helps you to recommend a list of books for your library in a format that your library understands and would love to process.</h3>
+    <button class="btn btn-small" type="button" id="retry">Retry</button>
+  </div></div>
 	<!-- Old form, when no data found -->
 	<!-- <!-- <div id="old-form">
 	<form class="form-horizontal">
@@ -98,21 +99,49 @@
 	<!-- </div>
 	</div>  -->
 
-	<!-- </div> -->
-	<div id="error">
-		<p class="text-error"><strong>Sorry, no record found!</strong></p>
-		<!-- <button class="btn btn-small btn-block btn-primary" type="button" id="fill">Fill the details</button> -->
-		<button class="btn btn-small btn-block" type="button" id="retry">Retry</button>
-	</div>
-<div id="wait" class= "modal"><br>Loading..</div>
- <div class="container-fluid bg-3" id="fromxisbn"><div class='table-scrollable'>
+ </div>
+ <hr>
+<div id="wait" class= "modal-wait">Loading...</div>
+<!-- Modal -->
+<div id="myModal" class="modal fade bg-3" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Please approve</h4>
+      </div>
+      <div class="modal-body">
+        <p></p>
+		<div class='table-scrollable'>
+			<table class="table table-bordered " >
+			<caption id="caption" class="bg-3">Bibliographic details about the requested books</caption>
+			<thead id="headers"><tr><th>Cover</th><th>Title</th><th>Author</th><th>Publisher</th><th>Edition</th><th>Year</th><th>ISBN</th></tr></thead>
+			<tbody id="approved"></tbody>
+
+			</table>
+		</div>
+      </div>
+      <div class="modal-footer">
+		<button class="btn btn-default" type="button" id="accept" onclick="accept()" data-dismiss="modal">Accept</button>
+        </div>
+    </div>
+
+  </div>
+</div>
+<!-- modal for approval ends here -->
+
+<div class="container-fluid bg-3" id="fromxisbn"><div class='table-scrollable'>
 <table class="table table-bordered " >
 <caption id="caption" class="bg-3">Bibliographic details about the requested books</caption>
-<thead id="headers"><tr><th>Cover</th><th>Title</th><th>Author</th><th>Publisher</th><th>Edition</th><th>Year</th><th>Language</th><th>Worldcat version</th></tr></thead>
+<thead id="headers"><tr><th></th></th><th>Cover</th><th>Title</th><th>Author</th><th>Publisher</th><th>Edition</th><th>Year</th><th>ISBN</th><th>Worldcat version</th></tr></thead>
 <tbody id="results"></tbody>
 
-</table></div>
-<button class="btn btn-small btn-block" type="button" onclick="myFunction()" >Download as PDF</button></br>
+</table></div><!-- <button class="btn btn-small btn-block" type="button" id="accept" onclick="accept()" >Accept</button></br> -->
+<form><input type="text" class="input-large" name='Name' id='Name' placeholder='Enter Name'>
+<input type="text" class="input-large" name='Email' id='Email' placeholder='Enter verfiable email'></form>
+<button class="btn btn-small btn-block" type="button" onclick="generatePDF()" >Download as PDF</button></br>
 </div>
 <!-- Second Container --><a name="why"></a>
 <div class="container-fluid bg-2 text-center" id="why">
@@ -178,6 +207,6 @@
 <!-- Footer -->
 <footer class="container-fluid bg-4 text-center">
   <p>Developed by Dr. Vinit Kumar with love for the LIS community<a href="https://www.bujhansi.org/frmViewCampusFacultyProfile.aspx?FacultyID=4" target="_blank"><br/>About Me</a></p>
-</footer>
+</footer><!-- <div class="modal"><!-- Place at bottom of page --></div> -->
 </body>
 </html>
